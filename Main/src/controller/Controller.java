@@ -67,4 +67,18 @@ public class Controller {
         }
         return gamesList;
     }
+
+    public ResultSet getAllTransactions() {
+        conn.connect();
+            String sql = "SELECT t.id AS transaction_id, t.user_id, u.name AS user_name, t.game_id, g.name AS game_name, t.total_price " +
+                    "FROM Transactions t " +
+                    "JOIN Users u ON t.user_id = u.id " +
+                    "JOIN Games g ON t.game_id = g.id";
+            try (PreparedStatement preparedStatement = conn.con.prepareStatement(sql)) {
+                return preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
